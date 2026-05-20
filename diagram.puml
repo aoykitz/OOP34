@@ -1,0 +1,107 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+enum Color {
+    WHITE
+    BLACK
+}
+
+struct Direction {
+    +int dx
+    +int dy
+}
+
+abstract class ChessPiece {
+    #int m_x
+    #int m_y
+    #Color m_color
+    #char* m_name
+    -static int s_whiteCount
+    -static int s_blackCount
+    +ChessPiece(x, y, color, name)
+    +ChessPiece(const ChessPiece&)
+    +operator=(const ChessPiece&)
+    +virtual ~ChessPiece()
+    +{abstract} canMoveTo(x, y) : bool
+    +{abstract} getSymbol() : char
+    +getType() : string
+    +print() : void
+    +static getWhiteCount() : int
+    +static getBlackCount() : int
+    +static validateBoardState(pieces[], count) : bool
+}
+
+abstract class SlidingPiece {
+    +SlidingPiece(x, y, color, name)
+    +canMoveTo(x, y) : bool
+    +getType() : string
+    #{abstract} getDirections(count) : const Direction*
+}
+
+abstract class JumpingPiece {
+    +JumpingPiece(x, y, color, name)
+    +canMoveTo(x, y) : bool
+    +getType() : string
+    #{abstract} getJumps(count) : const Direction*
+}
+
+interface CombinedPiece {
+    +{abstract} isCombined() : bool
+}
+
+class Rook {
+    +Rook(x, y, color)
+    +getSymbol() : char
+    +getType() : string
+    -getDirections(count) : const Direction*
+    -static s_directions : const Direction[4]
+}
+
+class Bishop {
+    +Bishop(x, y, color)
+    +getSymbol() : char
+    +getType() : string
+    -getDirections(count) : const Direction*
+    -static s_directions : const Direction[4]
+}
+
+class Queen {
+    +Queen(x, y, color)
+    +getSymbol() : char
+    +getType() : string
+    +isCombined() : bool
+    -getDirections(count) : const Direction*
+    -static s_directions : const Direction[8]
+}
+
+class Horse {
+    +Horse(x, y, color)
+    +getSymbol() : char
+    +getType() : string
+    -getJumps(count) : const Direction*
+    -static s_jumps : const Direction[8]
+}
+
+class King {
+    +King(x, y, color)
+    +getSymbol() : char
+    +canMoveTo(x, y) : bool
+    +getType() : string
+}
+
+ChessPiece <|-- SlidingPiece
+ChessPiece <|-- JumpingPiece
+ChessPiece <|-- King
+
+SlidingPiece <|-- Rook
+SlidingPiece <|-- Bishop
+SlidingPiece <|-- Queen
+
+JumpingPiece <|-- Horse
+
+CombinedPiece <|-- Queen
+
+ChessPiece::Color --> Color
+SlidingPiece::Direction --> Direction
+JumpingPiece::Direction --> Direction
+@enduml
