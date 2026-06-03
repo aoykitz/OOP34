@@ -1,7 +1,9 @@
 Статическая библиотека и тест
 
 cl /c /EHsc /std:c++17 /DLAB3_STATIC chesspiece.cpp slidingpiece.cpp jumpingpiece.cpp rook.cpp bishop.cpp queen.cpp horse.cpp king.cpp
+-----------------------------------------------------------------------------------------------------------------------------------------
 lib /OUT:lab3_static.lib chesspiece.obj slidingpiece.obj jumpingpiece.obj rook.obj bishop.obj queen.obj horse.obj king.obj
+-----------------------------------------------------------------------------------------------------------------------------------------
 cl /EHsc /std:c++17 /DLAB3_STATIC main.cpp lab3_static.lib /Fe:test_static.exe
 
 Динамическая библиотека и тест
